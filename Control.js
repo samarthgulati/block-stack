@@ -1,6 +1,27 @@
 class Control {
   get deltaX() {
-    return this._x - (this._anchor.x - this._r)
+    // (x1-x2), (y1 - y2)
+    // projection A = atan(0.5)
+    // (x1-x2) * cosA , (y1 - y2) * sinA 
+    // Mag 
+    // (((x1-x2) * cosA) ** 2 + ((y1 - y2) * sinA) ** 2) ** 0.5
+    // div by side 
+    // (((x1-x2) * cosA) ** 2 + ((y1 - y2) * sinA) ** 2) ** 0.5 / (0.5 * size * cosA)
+    // 2 * ((x1-x2) ** 2 + ((y1 - y2) * tanA) ** 2) ** 0.5 / size
+    const x = (this._x - (this._anchor.x - this._r))
+    const y = (this._y - (this._anchor.y - this._r))
+    const angle = 180 * Math.atan2(y, x) / Math.PI
+    const posA = -25
+    const negA = 150
+    const delta = 60
+    if(angle > posA - delta && angle < posA + delta) {
+      return Math.round(2 * (( x ** 2 + (y * 0.5) ** 2) ** 0.5) / grid.size)
+    } else if(angle > negA - delta && angle < negA + delta) {
+      return -Math.round(2 * (( x ** 2 + (y * 0.5) ** 2) ** 0.5) / grid.size)
+    } else {
+      return 0
+    }
+    
   }
   update({x, y}) {
     this._x = x - this._r
@@ -50,6 +71,7 @@ class Control {
       x: 0,
       y: 0
     }
+    this._angle = Math.PI / 6
     this._r = r
     this._x = 0
     this._y = 0
@@ -58,7 +80,7 @@ class Control {
       cy: r,
       r,
       stroke: 'none',
-      fill: 'hsla(207, 90%, 54%, 0.5)'
+      fill: 'hsla(200, 85%, 50%, 0.5)'
     })
     this._visible = true
     this.toggleVisibility()

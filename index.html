@@ -16,10 +16,11 @@
   </style>
 </head>
 <body>
+  <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
   <script src="InputEvents.js"></script>
   <script src="SVG.js"></script>
   <script src="Control.js"></script>
-  <script src="Cartesian.js"></script>
+  <script src="Isometric.js"></script>
   <script src="Shove.js"></script>
   <script src="Num.js"></script>
   <script>
@@ -30,10 +31,10 @@
       ), 
       20
     )
-    const grid = new Cartesian(board)
+    const grid = new Isometric(board)
     const num = new Num({
       x: 0,
-      y: 0,
+      y: board - 1,
       w: 1,
       h: 1,
       hue: 20

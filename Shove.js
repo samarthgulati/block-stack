@@ -1,17 +1,17 @@
 class Shove {
   get _props() {
     return {
-      x: ((this._x + this._w) * grid.size) + grid.size * 0.2,
-      y: this._y * grid.size,
-      w: this._w * grid.size,
-      h: this._h * grid.size
+      x: this._x,
+      y: this._y,
+      w: this._w,
+      h: this._h
     }
   }
   get edgeCoords() {
-    const {x, y, h} = this._props
+    const rod = this._group.lastElementChild
     return {
-      x: x + grid.size,
-      y: y + (h * 0.5)
+      x: Number(rod.getAttribute('x2')),
+      y: Number(rod.getAttribute('y2'))
     }
   }
   toggleVisibility() {
@@ -28,12 +28,13 @@ class Shove {
     this._w = w
     this._h = h
     if(this._group)
-      Cartesian.updateShove(this._props, this._group)
+      grid.updateShove(this._props, this._group)
   }
   constructor({x, y, w, h}) {
-    this._visible = false
+    this._visible = true
     this.update({x, y, w, h})
-    this._group = Cartesian.getShove(this._props)
+    this._group = grid.getShove(this._props)
     grid.svg.appendChild(this._group)
+    this.toggleVisibility()
   }
 }
