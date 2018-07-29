@@ -2,6 +2,7 @@ class Isometric {
   addShove({x, y, w, h}, group) {
     const xStart = x + w + 0.2
     const hue = 200
+    h = Math.min(h, this._maxZ)
     const plate = this._getLeftWall(xStart, y, h, hue, true)
     plate.setAttribute('opacity', 0.75)
     const rod = document.createElementNS(SVG.NS, 'line')
@@ -104,6 +105,7 @@ class Isometric {
 
   getBlock(x, y, z, hue = 0, selected = false) {
     const group = document.createElementNS(SVG.NS, 'g')
+    z = Math.min(z, this._maxZ)
     const lWall = this._getLeftWall(x, y, z, hue, selected)
     group.appendChild(lWall)
     const rWall = this._getRightWall(x, y, z, hue, selected)
@@ -133,16 +135,6 @@ class Isometric {
       this._origin[1] + (y - x) * this.size * 0.25
     ]
   }
-  _drawGrid() {
-    this._grid = document.createElementNS(SVG.NS, 'g');
-    [...Array(this.board)].forEach((b,x) => {
-      [...Array(this.board)].forEach((b,y) => {
-        const tile = this.getTile({x, y})
-        this._grid.appendChild(tile)
-      })
-    })
-    this.svg.appendChild(this._grid)
-  }
   _start(e) {
     if(this._dragging) return
     this._dragging = true
@@ -150,9 +142,17 @@ class Isometric {
   }
   _update(e) {
     if(!this._dragging) return
-    this._control.update(InputEvents.getPoint(e))
+    const coord = InputEvents.getPoint(e)
+    if(this._maxZ === this.board) {
+      coord.y += 40
+    }
+    this._control.update(coord)
     this._control.anchor = nums[this._selectedNum].shoveCoords
     nums[this._selectedNum].updateWidth(this._control.deltaX)
+    this.svg.dispatchEvent(new CustomEvent('update', {
+      bubbles: true,
+      detail: nums[this._selectedNum].props
+    }))
   }
   _end(e) {
     if(!this._dragging) return
@@ -161,6 +161,10 @@ class Isometric {
     this._update(e)
     this._control.anchor = nums[this._selectedNum].shoveCoords
     this._control.reset()
+    this.svg.dispatchEvent(new CustomEvent('update', {
+      bubbles: true,
+      detail: nums[this._selectedNum].props
+    }))
   }
   _deselect() {
     if(this._selectedNum) {
@@ -193,7 +197,6 @@ class Isometric {
     this.svg.addEventListener(events.move, this._update)
     this.svg.addEventListener(events.up, this._end)
     this.svg.addEventListener(events.cancel, this._end)
-    // this.svg.addEventListener(events.down, this._deselect)
     this.svg.addEventListener('toggle-select', this._handleSelect)
   }
   constructor(
@@ -210,9 +213,14 @@ class Isometric {
     this.svg.setAttribute("viewBox", `0 0 ${width} ${height}`)
     this.svg.setAttribute("width", `${width}px`)
     this.svg.setAttribute("height", `${height}px`)
+    if(width > height) {
+      this._maxZ = this.board
+      this.svg.style.marginTop = `-2.5rem`
+    } else {
+      this._maxZ = this.board * 2
+    }
     document.body.appendChild(this.svg)
     this._control = new Control(this.svg, 0.35 * this.size)
     this._addEventListeners()
-    this._drawGrid()
   }
 }

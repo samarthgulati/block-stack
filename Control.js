@@ -54,8 +54,10 @@ class Control {
     this._visible = !this._visible
     if(this._visible) {
       this._thumb.style.opacity = 1
+      this._thumb.style.pointerEvents = 'all'
     } else {
       this._thumb.style.opacity = 0
+      this._thumb.style.pointerEvents = 'none'
     }
   }
   _addEventListeners() {

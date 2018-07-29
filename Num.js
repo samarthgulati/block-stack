@@ -11,6 +11,12 @@ class Num {
     this._w = p.w
     this._h = p.h
   }
+  get props() {
+    return {
+      w: this._w,
+      h: this._h
+    }
+  }
   get _props() {
     return {
       x: this._x,
@@ -62,7 +68,8 @@ class Num {
     grid.updateBlocks(this._gridProps, this._rect)
   }
   toggleSelect(e) {
-    e.preventDefault()
+    if(e)
+      e.preventDefault()
     this._selected = !this._selected
     this._shove.toggleVisibility()
     grid.updateBlocks(this._gridProps, this._rect)
