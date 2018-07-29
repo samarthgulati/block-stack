@@ -9,14 +9,41 @@
     body {
       margin: 0;
       overflow: hidden;
-      user-select: none;
       touch-action: none;
     }
-    
+    section {
+      display: flex;
+      width: calc(100vw - 2rem);
+      position: fixed;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      border: none;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+      justify-content: space-between;
+    }
+    input {
+      width: 6ch;
+    }
+    input:nth-of-type(2) {
+      width: auto;
+    }
   </style>
 </head>
 <body>
-  <script src="https://rawgit.com/web-animations/web-animations-js/master/web-animations.min.js"></script>
+  <section>
+    <input value="1" disabled type="text" id="result">
+    =&nbsp;
+    <input value="1" disabled type="text" id="add">
+    =&nbsp;
+    <input value="1" disabled type="text" id="mult">
+    <span id="expEq">
+    =&nbsp;
+    </span>
+    <input value="1" disabled type="text" id="exp">
+  </section>
   <script src="InputEvents.js"></script>
   <script src="SVG.js"></script>
   <script src="Control.js"></script>
@@ -24,22 +51,7 @@
   <script src="Shove.js"></script>
   <script src="Num.js"></script>
   <script>
-    const nums = {}
-    const board = Math.min(
-      Math.floor(
-        Math.min(window.innerWidth, window.innerHeight) / 32
-      ), 
-      20
-    )
-    const grid = new Isometric(board)
-    const num = new Num({
-      x: 0,
-      y: board - 1,
-      w: 1,
-      h: 1,
-      hue: 20
-    }, Date.now())
-    nums[num.id] = num
+    'use strict';var nums={},board=20,grid=new Isometric(board),num=new Num({x:0,y:board-1,w:1,h:1,hue:20},Date.now());nums[num.id]=num,num._rect.dispatchEvent(new MouseEvent('click'));var base=null,validExp=!1;window.expEq.style.visibility='hidden',window.exp.style.visibility='hidden',grid.svg.addEventListener('update',function(a){var _e$detail=a.detail,b=_e$detail.w,c=_e$detail.h;!base&&1<c&&(base=c,validExp=!0);var d=b*c;if(window.result.value=d,window.add.value=Array(b).fill(c).join(' + '),window.mult.value=c+' x '+b,base){var f=Math.log(d)/Math.log(base),g=Math.trunc(f);validExp=1e-9>f-g,validExp?(window.expEq.style.visibility='visible',window.exp.style.visibility='visible',window.exp.value=base+' ^ '+Math.round(g)):(window.expEq.style.visibility='hidden',window.exp.style.visibility='hidden')}});
   </script>
 </body>
 </html>
