@@ -51,46 +51,7 @@
   <script src="Shove.js"></script>
   <script src="Num.js"></script>
   <script>
-    const nums = {}
-    const board = 20
-    const grid = new Isometric(board)
-    const num = new Num({
-      x: 0,
-      y: board - 1,
-      w: 1,
-      h: 1,
-      hue: 20
-    }, Date.now())
-    nums[num.id] = num
-    num._rect.dispatchEvent(new MouseEvent('click'))
-    let base = null
-    let validExp = false
-    window.expEq.style.visibility = 'hidden'
-    window.exp.style.visibility = 'hidden'
-    grid.svg.addEventListener('update', function(e) {
-      const {w, h} = e.detail
-      if(!base && h > 1) {
-        base = h
-        validExp = true
-      }
-      const value = w * h
-      window.result.value = value
-      window.add.value = Array(w).fill(h).join(' + ')
-      window.mult.value = `${h} x ${w}`
-      if(base) {
-        const pow = Math.log(value) / Math.log(base)
-        const truncPow = Math.trunc(pow)
-        validExp = pow - truncPow < 1E-9
-        if(validExp) {
-          window.expEq.style.visibility = 'visible'
-          window.exp.style.visibility = 'visible'
-          window.exp.value = `${base} ^ ${Math.round(truncPow)}`
-        } else {
-          window.expEq.style.visibility = 'hidden'
-          window.exp.style.visibility = 'hidden'
-        } 
-      }
-    })
+    'use strict';var nums={},board=20,grid=new Isometric(board),num=new Num({x:0,y:board-1,w:1,h:1,hue:20},Date.now());nums[num.id]=num,num._rect.dispatchEvent(new MouseEvent('click'));var base=null,validExp=!1;window.expEq.style.visibility='hidden',window.exp.style.visibility='hidden',grid.svg.addEventListener('update',function(a){var _e$detail=a.detail,b=_e$detail.w,c=_e$detail.h;!base&&1<c&&(base=c,validExp=!0);var d=b*c;if(window.result.value=d,window.add.value=Array(b).fill(c).join(' + '),window.mult.value=c+' x '+b,base){var f=Math.log(d)/Math.log(base),g=Math.trunc(f);validExp=1e-9>f-g,validExp?(window.expEq.style.visibility='visible',window.exp.style.visibility='visible',window.exp.value=base+' ^ '+Math.round(g)):(window.expEq.style.visibility='hidden',window.exp.style.visibility='hidden')}});
   </script>
 </body>
 </html>
