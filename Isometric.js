@@ -59,8 +59,13 @@ class Isometric {
     this.qsize = this.size * 0.25
     this.zScale = 1
     this.zsize = this.zScale * this.hsize
-    this.origin = [width * 0.5 - board * this.hsize , height * 0.5]
-    this.zMax = this.board
+    if(width > height) {
+      this.origin = [width * 0.5 - board * this.hsize , height * 0.5]
+      this.zMax = this.board * 0.9
+    } else {
+      this.origin = [width * 0.5 - board * this.hsize , height * 0.75]
+      this.zMax = this.board * 2.4
+    }
 
     this.width = width
     this.height = height
