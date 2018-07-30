@@ -5,32 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Block Stack</title>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      touch-action: none;
-    }
-    section {
-      display: flex;
-      width: calc(100vw - 2rem);
-      position: fixed;
-      left: 1rem;
-      right: 1rem;
-      bottom: 1rem;
-      border: none;
-      margin: 0;
-      padding: 0;
-      align-items: center;
-      justify-content: space-between;
-    }
-    input {
-      width: 6ch;
-    }
-    input:nth-of-type(2) {
-      width: auto;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <section>
@@ -45,52 +20,11 @@
     <input value="1" disabled type="text" id="exp">
   </section>
   <script src="InputEvents.js"></script>
-  <script src="SVG.js"></script>
   <script src="Control.js"></script>
   <script src="Isometric.js"></script>
   <script src="Shove.js"></script>
+  <script src="Block.js"></script>
   <script src="Num.js"></script>
-  <script>
-    const nums = {}
-    const board = 20
-    const grid = new Isometric(board)
-    const num = new Num({
-      x: 0,
-      y: board - 1,
-      w: 1,
-      h: 1,
-      hue: 20
-    }, Date.now())
-    nums[num.id] = num
-    num._rect.dispatchEvent(new MouseEvent('click'))
-    let base = null
-    let validExp = false
-    window.expEq.style.visibility = 'hidden'
-    window.exp.style.visibility = 'hidden'
-    grid.svg.addEventListener('update', function(e) {
-      const {w, h} = e.detail
-      if(!base && h > 1) {
-        base = h
-        validExp = true
-      }
-      const value = w * h
-      window.result.value = value
-      window.add.value = Array(w).fill(h).join(' + ')
-      window.mult.value = `${h} x ${w}`
-      if(base) {
-        const pow = Math.log(value) / Math.log(base)
-        const truncPow = Math.trunc(pow)
-        validExp = pow - truncPow < 1E-9
-        if(validExp) {
-          window.expEq.style.visibility = 'visible'
-          window.exp.style.visibility = 'visible'
-          window.exp.value = `${base} ^ ${Math.round(truncPow)}`
-        } else {
-          window.expEq.style.visibility = 'hidden'
-          window.exp.style.visibility = 'hidden'
-        } 
-      }
-    })
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

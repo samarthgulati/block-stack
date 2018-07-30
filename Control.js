@@ -1,3 +1,4 @@
+let control = null
 class Control {
   get deltaX() {
     // (x1-x2), (y1 - y2)
@@ -10,6 +11,7 @@ class Control {
     // 2 * ((x1-x2) ** 2 + ((y1 - y2) * tanA) ** 2) ** 0.5 / size
     const x = (this._x - (this._anchor.x - this._r))
     const y = (this._y - (this._anchor.y - this._r))
+    
     const angle = 180 * Math.atan2(y, x) / Math.PI
     const posA = -25
     const negA = 150
@@ -21,15 +23,16 @@ class Control {
     } else {
       return 0
     }
-    
   }
   update({x, y}) {
     this._x = x - this._r
     this._y = y - this._r
+  }
+  render() {
     this._thumb.style.transform = `translate(${this._x}px, ${this._y}px)`
   }
   _handleDown(e) {
-    e.preventDefault()
+    e.preventDefault()    
     this._thumb.dispatchEvent(new CustomEvent('start-drag', {
       bubbles: true,
       detail: e
@@ -50,16 +53,6 @@ class Control {
       this.update(this._anchor)
     }
   }
-  toggleVisibility() {
-    this._visible = !this._visible
-    if(this._visible) {
-      this._thumb.style.opacity = 1
-      this._thumb.style.pointerEvents = 'all'
-    } else {
-      this._thumb.style.opacity = 0
-      this._thumb.style.pointerEvents = 'none'
-    }
-  }
   _addEventListeners() {
     this._handleDown = this._handleDown.bind(this)
     const events = InputEvents.EVENTS
@@ -67,26 +60,32 @@ class Control {
   }
   set anchor(a) {
     this._anchor = a
+    
   }
-  constructor(svg, r = 48) {
+  constructor(r = 16) {
+    if(!control) {
+      control = this
+    }
     this._anchor = {
       x: 0,
       y: 0
     }
-    this._angle = Math.PI / 6
     this._r = r
     this._x = 0
     this._y = 0
-    this._thumb = SVG.getCircle({
-      cx: r,
-      cy: r,
-      r,
-      stroke: 'none',
-      fill: 'hsla(200, 85%, 50%, 0.5)'
-    })
-    this._visible = true
-    this.toggleVisibility()
+    this._thumb = document.createElement('nav')
+    const style = {
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: `${r * 2}px`,
+      height: `${r * 2}px`,
+      borderRadius: '50%',
+      background: 'hsla(200, 85%, 50%, 0.5)',
+    }
+    Object.keys(style).forEach(k => this._thumb.style[k] = style[k])
     this._addEventListeners()
-    svg.appendChild(this._thumb)
+    document.body.appendChild(this._thumb)
+    return control
   }
 }
