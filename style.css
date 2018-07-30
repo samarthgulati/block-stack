@@ -1,11 +1,24 @@
-/* CSS files add styling rules to your content */
-
 body {
-  font-family: "Benton Sans", "Helvetica Neue", helvetica, arial, sans-serif;
-  margin: 2em;
+  margin: 0;
+  overflow: hidden;
+  touch-action: none;
 }
-
-h1 {
-  font-style: italic;
-  color: #373fff;
+section {
+  display: flex;
+  width: calc(100vw - 2rem);
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  border: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  justify-content: space-between;
+}
+input {
+  width: 6ch;
+}
+input:nth-of-type(2) {
+  width: auto;
 }
