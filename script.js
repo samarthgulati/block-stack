@@ -21,7 +21,7 @@ let base = null
 let validExp = false
 window.expEq.style.visibility = 'hidden'
 window.exp.style.visibility = 'hidden'
-grid.canvas.addEventListener('update', function(e) {
+document.body.addEventListener('update', function(e) {
   const {w, h} = e.detail
   if(!base && h > 1) {
     base = h

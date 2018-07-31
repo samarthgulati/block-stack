@@ -17,7 +17,7 @@ class Isometric {
     control.update(coord)
     control.anchor = num.shoveCoords
     num.updateWidth(control.deltaX)
-    this.canvas.dispatchEvent(new CustomEvent('update', {
+    this._canvas.dispatchEvent(new CustomEvent('update', {
       bubbles: true,
       detail: num.props
     }))
@@ -29,7 +29,7 @@ class Isometric {
     this._update(e)
     control.anchor = num.shoveCoords
     control.reset()
-    this.canvas.dispatchEvent(new CustomEvent('update', {
+    this._canvas.dispatchEvent(new CustomEvent('update', {
       bubbles: true,
       detail: num.props
     }))
@@ -69,14 +69,14 @@ class Isometric {
 
     this.width = width
     this.height = height
-    this.canvas = document.createElement('canvas')
-    this.canvas.width = width
-    this.canvas.height = height
-    this.ctx = this.canvas.getContext('2d')
+    this._canvas = document.createElement('canvas')
+    this._canvas.width = width
+    this._canvas.height = height
+    this.ctx = this._canvas.getContext('2d')
     this._dragging = false
   
     this._addEventListeners()
-    document.body.appendChild(this.canvas)
+    document.body.appendChild(this._canvas)
     return grid
   }
 }

@@ -4,7 +4,7 @@ class Num {
     return this._w * this._h
   }
   get shoveCoords() {
-    return this._shove.edgeCoords
+    return shove.edgeCoords
   }
   set _props(p) {
     this._x = p.x
@@ -29,37 +29,39 @@ class Num {
   updateArea() {
     if(this._w !== 1) {
       const val = this.value
-      if(this._area > val) {
-        this._w = Math.round(this._area / this._h)
-        this._shove.update(this._props)
-        this._block.l = this._w
-      } else {
-        this._area = val  
+      if(this._savedValue > val) {
+        this._valueBlock.h = this._block.h
       }
+      this._savedValue = val
     } else {
       this._block.l = 1
-      this._block.h = this._area
+      this._block.h = this._savedValue
+      this._base = this._savedValue
+      this._valueBlock.l = 1
+      this._valueBlock.h = this._savedValue
       this._props = {
         x: this._x,
         y: this._y,
         w: 1,
-        h: this._area
+        h: this._savedValue
       }
       if(this.value > grid.zMax) {
         grid.zScale = grid.zMax / this.value
         grid.zsize = grid.zScale * grid.hsize
       }
-      this._shove.update(this._props)
+      shove.update(this._props)
     }
   }
   updateWidth(w) {
     this._w += w
     this._w = Math.max(1, this._w)
-    this._shove.update(this._props)
+    shove.update(this._props)
     this._block.l = this._w
+    this._valueBlock.h = Math.max(this._base, this._base + this._savedValue - this.value)
   }
   render() {
     this._block.render()
+    this._valueBlock.render()
   }
   constructor({x, y, w, h, hue}, id) {
     if(!num) {
@@ -71,14 +73,15 @@ class Num {
     this._w = w
     this._h = h
     this._hue = hue
-    this._area = this.value
+    this._savedValue = this.value
+    this._base = this._savedValue
     this._block = new Block({
       x, y, l: w, b: h, h: 1, hue
     })
-    // this._valueRect = new Block({
-    //   x, y, l: w, b: h, h: 1, hue
-    // })
-    this._shove = new Shove({x, y, w, h})
+    this._valueBlock = new Block({
+      x, y, l: w, b: h, h: 1, hue, opacity: 0.75
+    })
+    shove = new Shove({x, y, w, h})
     return num
   }
 }

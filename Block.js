@@ -1,5 +1,5 @@
 class Block {
-  constructor({x = 0, y = 0, z = 0, l = 1, b = 1, h = 0, hue = 10}) {
+  constructor({x = 0, y = 0, z = 0, l = 1, b = 1, h = 0, hue = 10, opacity = 1}) {
     this.x = x
     this.y = y
     this.z = z
@@ -9,6 +9,7 @@ class Block {
     this.h = h // z
     
     this.hue = hue
+    this.opacity = opacity
   }
   update({
     x = this.x, 
@@ -17,7 +18,8 @@ class Block {
     l = this.l, 
     b = this.b, 
     h = this.h, 
-    hue = this.hue
+    hue = this.hue, 
+    opacity = this.opacity
   }) {
     this.x = x
     this.y = y
@@ -28,12 +30,13 @@ class Block {
     this.h = h // z
     
     this.hue = hue
+    this.hue = opacity
   }
   get _strokeStyle() {
-    return `hsl(${this.hue}, 100%, 20%)`
+    return `hsla(${this.hue}, 100%, 20%, ${this.opacity})`
   }
   _drawTile(x, y, z) {
-    grid.ctx.fillStyle = `hsl(${this.hue}, 75%, 50%)`
+    grid.ctx.fillStyle = `hsla(${this.hue}, 75%, 50%, ${this.opacity})`
     grid.ctx.strokeStyle = this._strokeStyle
     grid.ctx.lineWidth = 1
     const [coordX, coordY] = grid.getCoord(x, y, z)
@@ -54,7 +57,7 @@ class Block {
     }  
   }
   _drawLeftWall(x, y, z) {
-    grid.ctx.fillStyle = `hsl(${this.hue}, 75%, 65%)`
+    grid.ctx.fillStyle = `hsla(${this.hue}, 75%, 65%, ${this.opacity})`
     grid.ctx.strokeStyle = this._strokeStyle
     grid.ctx.lineWidth = 1
     const [coordX, coordY] = grid.getCoord(x, y, z)
@@ -75,7 +78,7 @@ class Block {
     }
   }
   _drawRightWall(x, y, z) {
-    grid.ctx.fillStyle = `hsl(${this.hue}, 75%, 35%)`
+    grid.ctx.fillStyle = `hsla(${this.hue}, 75%, 35%, ${this.opacity})`
     grid.ctx.strokeStyle = this._strokeStyle
     grid.ctx.lineWidth = 1
     const [coordX, coordY] = grid.getCoord(x, y, z)
