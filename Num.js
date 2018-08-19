@@ -63,6 +63,16 @@ class Num {
     this._block.render()
     this._valueBlock.render()
   }
+  reset(props) {
+    this._props = props
+    props = {
+      l: props.w,
+      ...props
+    }
+    this._block.update(props)
+    this._valueBlock.update(props)
+    this._hue = props.hue
+  }
   constructor({x, y, w, h, hue}, id) {
     if(!num) {
       num = this

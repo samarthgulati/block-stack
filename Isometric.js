@@ -29,7 +29,7 @@ class Isometric {
     this._update(e)
     control.anchor = num.shoveCoords
     control.reset()
-    this._canvas.dispatchEvent(new CustomEvent('update', {
+    this._canvas.dispatchEvent(new CustomEvent('end', {
       bubbles: true,
       detail: num.props
     }))
