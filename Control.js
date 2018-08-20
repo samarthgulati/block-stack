@@ -60,7 +60,6 @@ class Control {
   }
   set anchor(a) {
     this._anchor = a
-    
   }
   constructor(r = 16) {
     if(!control) {

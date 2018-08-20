@@ -30,7 +30,7 @@ class Block {
     this.h = h // z
     
     this.hue = hue
-    this.hue = opacity
+    this.opacity = opacity
   }
   get _strokeStyle() {
     return `hsla(${this.hue}, 100%, 20%, ${this.opacity})`

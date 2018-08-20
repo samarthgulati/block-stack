@@ -72,6 +72,8 @@ class Num {
     this._block.update(props)
     this._valueBlock.update(props)
     this._hue = props.hue
+    this._savedValue = this.value
+    this._base = this._savedValue
   }
   constructor({x, y, w, h, hue}, id) {
     if(!num) {

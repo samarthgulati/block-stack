@@ -45,6 +45,10 @@ class Isometric {
     document.body.addEventListener(events.up, this._end)
     document.body.addEventListener(events.cancel, this._end)
   }
+  reset() {
+    this.zScale = 1
+    this.zsize = this.zScale * this.hsize
+  }
   constructor(
     board = 20,
     width = window.innerWidth,
