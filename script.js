@@ -146,6 +146,7 @@ function updateNote() {
       const anchor = num.shoveCoords
       control.anchor = anchor
       control.update(anchor)
+      window.help.textContent = 'Show Intro'
       window.next.classList.remove('hidden')
       window.next.textContent = 'Reset'
       window.overlay.classList.add('hidden')
