@@ -2,6 +2,7 @@ body {
   margin: 0;
   overflow: hidden;
   touch-action: none;
+  font-family: Tahoma, sans-serif;
 }
 section {
   display: flex;
@@ -12,6 +13,48 @@ section {
   top: 1rem;
   align-items: flex-start;
 }
+#help {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 5;
+}
+aside {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  position: fixed;
+  right: 1rem;
+  top: 1rem;
+  background: #efefef;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: solid 2px #ddd;
+  z-index: 1;
+}
+.done {
+  width: auto;
+}
+p {
+  white-space: pre-wrap;
+}
+button {
+  align-self: flex-end;
+}
 input {
   width: 25vw;
+  font-family: monospace;
+}
+#overlay {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: grey;
+  opacity: 0.5;
+  z-index: 1;
+}
+.hidden {
+  display: none;
 }
